@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUS TIMINGS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9; /* Existing background color */
+        }
+
+        h1 {
+            text-align: center;
+            text-decoration: underline;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            width: 100%; /* Ensures the container uses full width */
+        }
+
+        .bus-timings, .bus-names {
+            width: 45%;
+            padding: 0 20px;
+            box-sizing: border-box;
+            background-color: transparent; /* Set to transparent to remove the white box */
+        }
+
+        h3 {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .bus-table {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: none; /* Remove shadow for a cleaner look */
+        }
+
+        .bus-table div {
+            font-size: 1.2em;
+            margin: 5px 0;
+            text-align: left;
+            width: 100%;
+            padding: 5px;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0); /* Transparent background for each entry */
+        }
+
+        .timer {
+            font-weight: bold;
+            color: #d32f2f; /* Timer color */
+        }
+
+        @media (max-width: 768px) {
+            .bus-timings, .bus-names {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>PIRAVOM TO ERNAKULAM BUS TIMINGS</h1>
+    
+    <div class="container">
+        <div class="bus-timings">
+            <h3>Bus Time</h3>
+            <div class="bus-table" id="busTimes">
+                <div>05.00 AM <span class="timer" id="timer1"></span></div>
+                <div>05.20 AM <span class="timer" id="timer2"></span></div>
+                <div>06.15 AM <span class="timer" id="timer3"></span></div>
+                <div>06.50 AM <span class="timer" id="timer4"></span></div>
+                <div>07.15 AM <span class="timer" id="timer5"></span></div>
+                <div>07.35 AM <span class="timer" id="timer6"></span></div>
+                <div>08.02 AM <span class="timer" id="timer7"></span></div>
+                <div>08.45 AM <span class="timer" id="timer8"></span></div>
+                <div>09.00 AM <span class="timer" id="timer9"></span></div>
+                <div>09.40 AM <span class="timer" id="timer10"></span></div>
+                <div>10.15 AM <span class="timer" id="timer11"></span></div>
+                <div>10.43 AM <span class="timer" id="timer12"></span></div>
+                <div>11.30 AM <span class="timer" id="timer13"></span></div>
+                <div>12.04 PM <span class="timer" id="timer14"></span></div>
+            </div>
+        </div>
+
+        <div class="bus-names">
+            <h3>Bus Name</h3>
+            <div class="bus-table" id="busNames">
+                <div>Daliya <span class="timer" id="timer15"></span></div>
+                <div>Vanchinad <span class="timer" id="timer16"></span></div>
+                <div>S.T Mary’s <span class="timer" id="timer17"></span></div>
+                <div>Three Kings <span class="timer" id="timer18"></span></div>
+                <div>N.M.S <span class="timer" id="timer19"></span></div>
+                <div>K.M.P <span class="timer" id="timer20"></span></div>
+                <div>S.T Basil <span class="timer" id="timer21"></span></div>
+                <div>Ashrika <span class="timer" id="timer22"></span></div>
+                <div>Holy Kings <span class="timer" id="timer23"></span></div>
+                <div>Sree Ayyappan <span class="timer" id="timer24"></span></div>
+                <div>Harikrishna <span class="timer" id="timer25"></span></div>
+                <div>Nandhanam <span class="timer" id="timer26"></span></div>
+                <div>Thampuran <span class="timer" id="timer27"></span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to generate random countdown duration (1 to 10 minutes)
+        function getRandomDuration() {
+            return Math.floor(Math.random() * 10 + 1) * 60; // Random seconds (60s to 600s)
+        }
+
+        // Function to start countdown timers
+        function startCountdown(id, duration) {
+            let timer = duration;
+            const display = document.getElementById(id);
+
+            const interval = setInterval(() => {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                display.textContent = `${minutes}m ${seconds}s`;
+                display.style.color = ''; // Reset color
+
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    display.textContent = "Time's up!";
+                    flashRed(display); // Call function to flash red
+                    // Restart the countdown after 3 seconds
+                    setTimeout(() => {
+                        const newDuration = getRandomDuration(); // Get a new random duration
+                        startCountdown(id, newDuration); // Restart the countdown
+                    }, 3000);
+                }
+
+                timer--;
+            }, 1000);
+        }
+
+        // Function to flash the timer display red
+        function flashRed(display) {
+            let flashes = 0;
+            const flashInterval = setInterval(() => {
+                display.style.color = (flashes % 2 === 0) ? 'red' : ''; // Toggle color
+                flashes++;
+                if (flashes >= 6) { // Flash 6 times (3 seconds)
+                    clearInterval(flashInterval);
+                    display.style.color = ''; // Reset color after flashing
+                }
+            }, 500);
+        }
+
+        // Start countdowns for each bus time and bus name
+        const busTimeIds = [...Array(14).keys()].map(i => `timer${i + 1}`);
+        const busNameIds = [...Array(13).keys()].map(i => `timer${i + 15}`);
+
+        busTimeIds.forEach(id => startCountdown(id, getRandomDuration()));
+        busNameIds.forEach(id => startCountdown(id, getRandomDuration()));
+    </script>
+</body>
+</html>
